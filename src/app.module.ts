@@ -3,9 +3,13 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { CredentialsModule } from './credentials/credentials.module';
+import { NotesModule } from './notes/notes.module';
+import { CardsModule } from './cards/cards.module';
+import { EraseModule } from './erase/erase.module';
 
 @Module({
-  imports: [AuthModule, UsersModule],
+  imports: [AuthModule, UsersModule, CredentialsModule, NotesModule, CardsModule, EraseModule],
   controllers: [AppController],
   providers: [AppService],
 })
