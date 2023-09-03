@@ -46,8 +46,8 @@ model Note {
 model Card {
   id         Int      @id @default(autoincrement())
   name       String
-  number     Int
-  cvv        Int
+  number     String
+  cvv        String
   expiration DateTime
   virtual    Boolean
   type       CardType

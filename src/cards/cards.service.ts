@@ -1,26 +1,38 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCardDto } from './dto/create-card.dto';
 import { UpdateCardDto } from './dto/update-card.dto';
+import { CardsRepository } from './cards.repository';
+import { User } from '@prisma/client';
 
 @Injectable()
 export class CardsService {
-  create(createCardDto: CreateCardDto) {
-    return 'This action adds a new card';
+  constructor(private readonly repository: CardsRepository) {}
+
+  async create(createCardDto: CreateCardDto, userId: number) {
+    const checkName = await this.repository.getByUserId(userId, createCardDto.name)
+    if (checkName) throw new ConflictException("O titulo do cartao deve ser unico!")
+    return await this.repository.create(createCardDto, userId)
   }
 
-  findAll() {
-    return `This action returns all cards`;
+  async findAll(userId: number) {
+    return await this.repository.findAll(userId)
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} card`;
+  async findOne(id: number, user: User) {
+    const result = await this.repository.getById(id)
+    if (!result) throw new NotFoundException("Cartao nao encontrado")
+    if (result.userId !== user.id) throw new ForbiddenException("Cartao pertence a outro usuario")
+    return result
   }
 
-  update(id: number, updateCardDto: UpdateCardDto) {
+  async update(id: number, updateCardDto: UpdateCardDto) {
     return `This action updates a #${id} card`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} card`;
+  async remove(id: number, user: User) {
+    const result = await this.repository.getById(id)
+    if (!result) throw new NotFoundException("Cartao nao encontrado")
+    if (result.userId !== user.id) throw new ForbiddenException("Cartao pertence a outro usuario")
+    return await this.repository.remove(id);
   }
 }
