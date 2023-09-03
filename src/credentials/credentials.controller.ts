@@ -1,25 +1,29 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { CredentialsService } from './credentials.service';
 import { CreateCredentialDto } from './dto/create-credential.dto';
 import { UpdateCredentialDto } from './dto/update-credential.dto';
+import { AuthGuard } from '../guards/auth.guard';
+import { User } from '../decorators/user.decorator';
+import { User as UserPrisma } from '@prisma/client';
 
+@UseGuards(AuthGuard)
 @Controller('credentials')
 export class CredentialsController {
   constructor(private readonly credentialsService: CredentialsService) {}
 
   @Post()
-  create(@Body() createCredentialDto: CreateCredentialDto) {
-    return this.credentialsService.create(createCredentialDto);
+  create(@Body() createCredentialDto: CreateCredentialDto,  @User() user: UserPrisma) {
+    return this.credentialsService.create(createCredentialDto, +user.id);
   }
 
   @Get()
-  findAll() {
-    return this.credentialsService.findAll();
+  findAll(@User() user: UserPrisma) {
+    return this.credentialsService.findAll(+user.id);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.credentialsService.findOne(+id);
+  findOne(@Param('id') id: string, @User() user: UserPrisma) {
+    return this.credentialsService.findOne(+id, user);
   }
 
   @Patch(':id')
@@ -28,7 +32,7 @@ export class CredentialsController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.credentialsService.remove(+id);
+  remove(@Param('id') id: string, @User() user: UserPrisma) {
+    return this.credentialsService.remove(+id, user);
   }
 }

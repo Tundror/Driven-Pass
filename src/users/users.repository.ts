@@ -10,7 +10,6 @@ export class UsersRepository {
   constructor(private readonly prisma: PrismaService) { }
 
   create(userDto: CreateUserDto) {
-    console.log(userDto)
     return this.prisma.user.create({
       data: {
         ...userDto,
@@ -20,7 +19,7 @@ export class UsersRepository {
   }
 
   getById(id: number) {
-    return this.prisma.user.findUnique({
+    return this.prisma.user.findFirst({
       where: { id }
     })
   }

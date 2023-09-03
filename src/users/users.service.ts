@@ -16,6 +16,7 @@ export class UsersService {
   async getUserById(id: number) {
     const user = await this.usersRepository.getById(id)
     if (!user) throw new NotFoundException("Usuario nao encontrado");
+    return user
   }
 
   async findUserByEmail(email: string) {

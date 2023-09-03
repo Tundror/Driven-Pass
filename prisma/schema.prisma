@@ -18,7 +18,7 @@ model User {
   Note       Note[]
   Card       Card[]
 
-  @@map("user")
+  @@map("users")
 }
 
 model Credential {
