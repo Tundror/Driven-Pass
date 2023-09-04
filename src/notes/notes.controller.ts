@@ -4,7 +4,7 @@ import { CreateNoteDto } from './dto/create-note.dto';
 import { AuthGuard } from '../guards/auth.guard';
 import { User } from '../decorators/user.decorator';
 import { User as UserPrisma } from '@prisma/client';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags("notes")
 @UseGuards(AuthGuard)
@@ -27,6 +27,9 @@ export class NotesController {
   }
 
   @Get(':id')
+  @ApiParam({
+    name: "id", description: "note id", example: 1
+  })
   @ApiOperation({summary: "Get note"})
   @ApiResponse({status: HttpStatus.OK, description: "Successfully got note"})
   findOne(@Param('id') id: string, @User() user: UserPrisma) {
@@ -34,6 +37,9 @@ export class NotesController {
   }
 
   @Delete(':id')
+  @ApiParam({
+    name: "id", description: "note id", example: 1
+  })
   @ApiOperation({summary: "Delete note"})
   @ApiResponse({status: HttpStatus.OK, description: "Successfully deleted note"})
   remove(@Param('id') id: string, @User() user: UserPrisma) {

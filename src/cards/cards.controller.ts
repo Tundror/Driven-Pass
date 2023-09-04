@@ -4,7 +4,7 @@ import { CreateCardDto } from './dto/create-card.dto';
 import { AuthGuard } from '../guards/auth.guard';
 import { User as UserPrisma } from '@prisma/client';
 import { User } from '../decorators/user.decorator';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags("cards")
 @UseGuards(AuthGuard)
@@ -27,6 +27,9 @@ export class CardsController {
   }
 
   @Get(':id')
+  @ApiParam({
+    name: "id", description: "card id", example: 1
+  })
   @ApiOperation({summary: "Get card from user"})
   @ApiResponse({status: HttpStatus.OK, description: "Successfully got card"})
   findOne(@Param('id') id: string, @User() user: UserPrisma) {
@@ -34,6 +37,9 @@ export class CardsController {
   }
 
   @Delete(':id')
+  @ApiParam({
+    name: "id", description: "card id", example: 1
+  })
   @ApiOperation({summary: "Delete cards from user"})
   @ApiResponse({status: HttpStatus.OK, description: "Successfully deleted cards"})
   remove(@Param('id') id: string, @User() user: UserPrisma) {

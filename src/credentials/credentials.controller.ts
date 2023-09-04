@@ -4,7 +4,7 @@ import { CreateCredentialDto } from './dto/create-credential.dto';
 import { AuthGuard } from '../guards/auth.guard';
 import { User } from '../decorators/user.decorator';
 import { User as UserPrisma } from '@prisma/client';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags("credentials")
 @UseGuards(AuthGuard)
@@ -27,6 +27,9 @@ export class CredentialsController {
   }
 
   @Get(':id')
+  @ApiParam({
+    name: "id", description: "credential id", example: 1
+  })
   @ApiOperation({summary: "Get credential from user"})
   @ApiResponse({status: HttpStatus.OK, description: "Successfully got credential"})
   findOne(@Param('id') id: string, @User() user: UserPrisma) {
@@ -34,6 +37,9 @@ export class CredentialsController {
   }
 
   @Delete(':id')
+  @ApiParam({
+    name: "id", description: "credential id", example: 1
+  })
   @ApiOperation({summary: "Delete credential from user"})
   @ApiResponse({status: HttpStatus.OK, description: "Successfully deleted credential"})
   remove(@Param('id') id: string, @User() user: UserPrisma) {
