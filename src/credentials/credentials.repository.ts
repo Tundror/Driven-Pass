@@ -10,10 +10,9 @@ export class CredentialsRepository {
     constructor(private readonly prisma: PrismaService) { }
     private cryptoSecret = process.env.CRYPTR_SECRET;
     private cryptr = new Cryptr(this.cryptoSecret);
-    create(credentialsDto: CreateCredentialDto, userId: number) {
+    async create(credentialsDto: CreateCredentialDto, userId: number) {
         const encryptedPassword = this.cryptr.encrypt(credentialsDto.password);
-        console.log(encryptedPassword)
-        return this.prisma.credential.create({
+        const result = await this.prisma.credential.create({
             data: {
                 url: credentialsDto.url,
                 username: credentialsDto.username,
@@ -22,6 +21,7 @@ export class CredentialsRepository {
                 userId
             }
         })
+        return result
     }
 
     async findAll(userId: number) {
