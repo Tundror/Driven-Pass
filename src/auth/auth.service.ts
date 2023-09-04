@@ -34,7 +34,7 @@ export class AuthService {
     createToken(user: User) {
         const { id, email } = user;
 
-        const token = this.jwtService.sign({ email, id }, {
+        const token = this.jwtService.sign({ id }, {
             expiresIn: this.EXPIRATION_TIME,
             subject: String(id),
             issuer: this.ISSUER,
