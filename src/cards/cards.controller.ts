@@ -4,7 +4,7 @@ import { CreateCardDto } from './dto/create-card.dto';
 import { AuthGuard } from '../guards/auth.guard';
 import { User as UserPrisma } from '@prisma/client';
 import { User } from '../decorators/user.decorator';
-import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags("cards")
 @UseGuards(AuthGuard)
@@ -13,6 +13,7 @@ export class CardsController {
   constructor(private readonly cardsService: CardsService) {}
 
   @Post()
+  @ApiBearerAuth()
   @ApiOperation({summary: "Create card"})
   @ApiResponse({status: HttpStatus.CREATED, description: "Successfully created card"})
   create(@Body() createCardDto: CreateCardDto,  @User() user: UserPrisma) {
@@ -20,6 +21,7 @@ export class CardsController {
   }
 
   @Get()
+  @ApiBearerAuth()
   @ApiOperation({summary: "Get cards from user"})
   @ApiResponse({status: HttpStatus.OK, description: "Successfully got cards"})
   findAll(@User() user: UserPrisma) {
@@ -27,6 +29,7 @@ export class CardsController {
   }
 
   @Get(':id')
+  @ApiBearerAuth()
   @ApiParam({
     name: "id", description: "card id", example: 1
   })
@@ -37,6 +40,7 @@ export class CardsController {
   }
 
   @Delete(':id')
+  @ApiBearerAuth()
   @ApiParam({
     name: "id", description: "card id", example: 1
   })

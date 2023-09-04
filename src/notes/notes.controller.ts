@@ -4,7 +4,7 @@ import { CreateNoteDto } from './dto/create-note.dto';
 import { AuthGuard } from '../guards/auth.guard';
 import { User } from '../decorators/user.decorator';
 import { User as UserPrisma } from '@prisma/client';
-import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags("notes")
 @UseGuards(AuthGuard)
@@ -13,6 +13,7 @@ export class NotesController {
   constructor(private readonly notesService: NotesService) {}
 
   @Post()
+  @ApiBearerAuth()
   @ApiOperation({summary: "Create note"})
   @ApiResponse({status: HttpStatus.CREATED, description: "Successfully created note"})
   create(@Body() createNoteDto: CreateNoteDto, @User() user: UserPrisma) {
@@ -20,6 +21,7 @@ export class NotesController {
   }
 
   @Get()
+  @ApiBearerAuth()
   @ApiOperation({summary: "Get notes"})
   @ApiResponse({status: HttpStatus.OK, description: "Successfully got notes"})
   findAll(@User() user: UserPrisma) {
@@ -27,6 +29,7 @@ export class NotesController {
   }
 
   @Get(':id')
+  @ApiBearerAuth()
   @ApiParam({
     name: "id", description: "note id", example: 1
   })
@@ -37,6 +40,7 @@ export class NotesController {
   }
 
   @Delete(':id')
+  @ApiBearerAuth()
   @ApiParam({
     name: "id", description: "note id", example: 1
   })
