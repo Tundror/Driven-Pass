@@ -1,7 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, HttpStatus } from '@nestjs/common';
 import { CardsService } from './cards.service';
 import { CreateCardDto } from './dto/create-card.dto';
-import { UpdateCardDto } from './dto/update-card.dto';
 import { AuthGuard } from '../guards/auth.guard';
 import { User as UserPrisma } from '@prisma/client';
 import { User } from '../decorators/user.decorator';

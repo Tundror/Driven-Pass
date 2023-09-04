@@ -1,6 +1,5 @@
 import { ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateNoteDto } from './dto/create-note.dto';
-import { UpdateNoteDto } from './dto/update-note.dto';
 import { User } from '@prisma/client';
 import { NotesRepository } from './notes.repository';
 
@@ -22,10 +21,6 @@ export class NotesService {
     if (!result) throw new NotFoundException("Nota nao encontrada")
     if (result.userId !== user.id) throw new ForbiddenException("Nota pertence a outro usuario")
     return result
-  }
-
-  update(id: number, updateNoteDto: UpdateNoteDto) {
-    return `This action updates a #${id} note`;
   }
 
   async remove(id: number, user: User) {
