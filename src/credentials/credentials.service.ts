@@ -25,10 +25,6 @@ constructor(private readonly repository: CredentialsRepository) {}
     return result
   }
 
-  async update(id: number, updateCredentialDto: UpdateCredentialDto) {
-    return `This action updates a #${id} credential`;
-  }
-
   async remove(id: number, user: User) {
     const result = await this.repository.getById(id)
     if (!result) throw new NotFoundException("Credencial nao encontrada")

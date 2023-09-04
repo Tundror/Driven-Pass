@@ -25,10 +25,6 @@ export class CardsService {
     return result
   }
 
-  async update(id: number, updateCardDto: UpdateCardDto) {
-    return `This action updates a #${id} card`;
-  }
-
   async remove(id: number, user: User) {
     const result = await this.repository.getById(id)
     if (!result) throw new NotFoundException("Cartao nao encontrado")
