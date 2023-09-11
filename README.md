@@ -3,7 +3,7 @@
 DrivenPass is a sensitive data management application designed to provide functionality to create, access and delete user account information, credentials, secure notes and cards. The project aims to ensure data security and user privacy.
 
 ## Documentation
-- [Access the API documentation](https://driven-pass-xj3q.onrender.com/api)
+- [Access the API documentation](https://driven-pass-mjfx.onrender.com/api)
 
 ## Main Project Technologies:
 
